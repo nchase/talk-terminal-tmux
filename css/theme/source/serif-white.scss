@@ -29,12 +29,28 @@ $selectionBackgroundColor: #26351C;
   line-height: 1.3em;
 }
 
-ul ul,
-ol ul {
-  list-style: none;
-}
-
-
 // Theme template ------------------------------
 @import "../template/theme";
 // ---------------------------------------------
+
+
+.reveal {
+  .nolist {
+    ul,
+    ol {
+      list-style: none;
+    }
+  }
+  ul,
+  ol {
+    li {
+      margin: 0.66em 0;
+    }
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 0.6em;
+  }
+}
+

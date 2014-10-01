@@ -7,9 +7,6 @@
 .reveal a {
   line-height: 1.3em; }
 
-ul ul, ol ul {
-  list-style: none; }
-
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -262,3 +259,10 @@ body {
  *********************************************/
 .reveal .slide-number {
   color: #51483D; }
+
+.reveal .nolist ul, .reveal .nolist ol {
+  list-style: none; }
+.reveal ul li, .reveal ol li {
+  margin: 0.66em 0; }
+.reveal h1, .reveal h2 {
+  margin-bottom: 0.6em; }
