@@ -1898,9 +1898,7 @@
 		// Show fragment, if specified
 		if( typeof f !== 'undefined' ) {
 			navigateFragment( f );
-		} else {
-            navigateFragment();
-        }
+		}
 
 		// Dispatch an event if the slide changed
 		var slideChanged = ( indexh !== indexhBefore || indexv !== indexvBefore );
@@ -2568,12 +2566,12 @@
 	function availableFragments() {
 
 		if( currentSlide && config.fragments ) {
-			var cur = currentFragmentIndex();
-			var last = lastFragmentIndex();
+			var fragments = currentSlide.querySelectorAll( '.fragment' );
+			var hiddenFragments = currentSlide.querySelectorAll( '.fragment:not(.visible)' );
 
 			return {
-				prev: cur > 0,
-				next: cur < last
+				prev: fragments.length - hiddenFragments.length > 0,
+				next: !!hiddenFragments.length
 			};
 		}
 		else {
@@ -3007,7 +3005,7 @@
 
 		fragments = toArray( fragments );
 
-		var ordered = [[]],
+		var ordered = [],
 			unordered = [],
 			sorted = [];
 
@@ -3050,23 +3048,6 @@
 
 	}
     
-    function currentFragmentIndex() {
-        var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
-
-        if( lastVisibleFragment ) {
-            return parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-        }
-        return 0;
-    }
-
-    function lastFragmentIndex() {
-        var lastFragment = sortFragments( currentSlide.querySelectorAll( '.fragment' ) ).pop();
-
-        if( lastFragment ) {
-            return parseInt( lastFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
-        }
-        return 0;
-    }
     
     
 	/**
@@ -3086,12 +3067,17 @@
 
 			var fragments = sortFragments( currentSlide.querySelectorAll( '.fragment' ) );
 			if( fragments.length ) {
-                var curIdx = currentFragmentIndex();
-                var lastIdx = lastFragmentIndex();
                 
 				// If no index is specified, find the current
 				if( typeof index !== 'number' ) {
-					index = curIdx;
+					var lastVisibleFragment = sortFragments( currentSlide.querySelectorAll( '.fragment.visible' ) ).pop();
+
+					if( lastVisibleFragment ) {
+						index = parseInt( lastVisibleFragment.getAttribute( 'data-fragment-index' ) || 0, 10 );
+					}
+					else {
+						index = -1;
+					}
 				}
 
 				// If an offset is specified, apply it to the index
@@ -3099,12 +3085,6 @@
 					index += offset;
 				}
                 
-                if(index < 0){
-                    index = 0;
-                }
-                if(index > lastIdx){
-                    index = lastIdx;
-                }
 
 				var fragmentsShown = [],
 					fragmentsHidden = [];
