@@ -1,7 +1,3 @@
-<!-- empty slide -->
-
-
-
 _The_ Sources of Sadness In Software Engineering:
 -------------------------------------------------
 
